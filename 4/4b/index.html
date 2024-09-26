@@ -1,99 +1,192 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Provinsi & Kabupaten</title>
+    <title>CRUD Provinsi & Kabupaten</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .card {
-            height: 100%; 
+            height: 100%;
         }
+
         .card-img-top {
-            height: 150px; 
-            object-fit: cover; 
+            height: 150px;
+            object-fit: cover;
         }
-        .card-body {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between; 
+
+        .img-preview {
+            max-width: 100%;
+            height: auto;
+            display: none; /*ini untuk saya Sembunyikan preview gambar awal */
         }
     </style>
 </head>
 
 <body class="bg-dark">
     <div class="container py-5">
-        <div class="row">
-            <div class="col-12 text-center text-white">
-                <h1 class="mb-4">Provinsi & Kabupaten</h1>
-                <div class="form-group">
-                    <select class="form-control" id="provinsi">
-                        <option selected>Pilih Provinsi</option>
-                        <!-- Add options dynamically here -->
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="row" id="provinsi-container">
-            <!-- Provinsi cards will be added here dynamically -->
-            <div class="col-12 col-sm-6 col-md-3 mb-4">
-                <div class="card">
-                    <img src="https://wahananews.co/photo/berita/dir022022/mengenal-makna-logo-jawa-barat-provinsi-indah-dengan-kekuatan-pangan_D2x91Nhqux.jpg" class="card-img-top" alt="Jawa Barat Logo">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Jawa Barat</h5>
-                        <p class="card-text">19 - Agustus 1945</p>
-                        <a href="#" class="btn btn-primary">Detail</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-sm-6 col-md-3 mb-4">
-                <div class="card">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSl6UljHbx1HEQf-PNfMNOlgDjUYlNX1eJHFA&s" class="card-img-top" alt="Jawa Tengah Logo">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Jawa Tengah</h5>
-                        <p class="card-text">15 - Agustus 1950</p>
-                        <a href="#" class="btn btn-primary">Detail</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-sm-6 col-md-3 mb-4">
-                <div class="card">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8mAxQHISfBEE7rGakK7OV8TKcyQ11ysQEeA&s" class="card-img-top" alt="Bali Logo">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Bali</h5>
-                        <p class="card-text">14 - Agustus - 1959</p>
-                        <a href="#" class="btn btn-primary">Detail</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-sm-6 col-md-3 mb-4">
-                <div class="card">
-                    <img src="https://sippn.menpan.go.id/images/article/large/pancacita_aceh-logo-300ce47472-seeklogocom-20240622105500.png" class="card-img-top" alt="Aceh Logo">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Aceh</h5>
-                        <p class="card-text">7 - Desember - 1956</p>
-                        <a href="#" class="btn btn-primary">Detail</a>
-                    </div>
-                </div>
-            </div>
+        <h1 class="mb-4 text-white text-center">CRUD Provinsi & Kabupaten</h1>
+        <div id="auth-container" class="mb-4">
+            <h3 class="text-white">Login / Register</h3>
+            <input type="text" id="username" class="form-control mb-2" placeholder="Username">
+            <input type="password" id="password" class="form-control mb-2" placeholder="Password">
+            <button id="registerBtn" class="btn btn-primary mb-2">Register</button>
+            <button id="loginBtn" class="btn btn-secondary">Login</button>
         </div>
 
-        <div class="row">
-            <div class="col-12 text-center">
-                <button class="btn btn-primary mr-2">Add Provinsi</button>
-                <button class="btn btn-secondary">Add Kabupaten</button>
-            </div>
+        <div id="provinsi-container" class="row">
+            <!-- Provinsi cards -->
+        </div>
+
+        <div id="form-container" class="mb-4" style="display: none;">
+            <h3 class="text-white">Tambah Provinsi</h3>
+            <input type="text" id="provinsiName" class="form-control mb-2" placeholder="Nama Provinsi">
+            <input type="text" id="kabupatenName" class="form-control mb-2" placeholder="Nama Kabupaten">
+            <input type="date" id="tanggal" class="form-control mb-2" placeholder="Tanggal">
+            <input type="file" id="foto" class="form-control mb-2" accept="image/*">
+            <img id="imgPreview" class="img-preview mb-2" alt="Preview Foto">
+            <button id="addProvinsiBtn" class="btn btn-primary">Tambah Provinsi</button>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="/4/4b/myfunct.js"></script>
+    <script>
+        const authContainer = document.getElementById('auth-container');
+        const formContainer = document.getElementById('form-container');
+        const provinsiContainer = document.getElementById('provinsi-container');
+        const imgPreview = document.getElementById('imgPreview');
+        const fotoInput = document.getElementById('foto');
+
+        let loggedInUser = null;
+
+        // Fungsi untuk mendaftar
+        document.getElementById('registerBtn').onclick = function () {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username && password) {
+                localStorage.setItem(username, password);
+                alert('User registered successfully!');
+            } else {
+                alert('Please fill in all fields');
+            }
+        };
+
+        // Fungsi untuk login
+        document.getElementById('loginBtn').onclick = function () {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (localStorage.getItem(username) === password) {
+                loggedInUser = username;
+                alert('Login successful!');
+                authContainer.style.display = 'none';
+                formContainer.style.display = 'block';
+                loadProvinsi();
+            } else {
+                alert('Invalid credentials');
+            }
+        };
+
+        // Fungsi untuk menambahkan provinsi
+        document.getElementById('addProvinsiBtn').onclick = function () {
+            const provinsiName = document.getElementById('provinsiName').value;
+            const kabupatenName = document.getElementById('kabupatenName').value;
+            const tanggal = document.getElementById('tanggal').value;
+            const foto = fotoInput.files[0];
+
+            if (provinsiName && kabupatenName && tanggal && foto) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const provinsiData = {
+                        name: provinsiName,
+                        kabupaten: kabupatenName,
+                        tanggal: tanggal,
+                        foto: e.target.result, // Simpan data gambar sebagai URL
+                        id: Date.now() // unique ID
+                    };
+
+                    let provinsiList = JSON.parse(localStorage.getItem('provinsiList')) || [];
+                    provinsiList.push(provinsiData);
+                    localStorage.setItem('provinsiList', JSON.stringify(provinsiList));
+
+                    document.getElementById('provinsiName').value = '';
+                    document.getElementById('kabupatenName').value = '';
+                    document.getElementById('tanggal').value = '';
+                    fotoInput.value = '';
+                    imgPreview.style.display = 'none'; // Saya Sembunyikan preview gambar
+                    loadProvinsi();
+                };
+                reader.readAsDataURL(foto); // Baca file gambar
+            } else {
+                alert('Please fill in all fields');
+            }
+        };
+
+        // Fungsi untuk memuat provinsi
+        function loadProvinsi() {
+            provinsiContainer.innerHTML = '';
+            const provinsiList = JSON.parse(localStorage.getItem('provinsiList')) || [];
+
+            provinsiList.forEach(provinsi => {
+                const card = document.createElement('div');
+                card.className = 'col-12 col-sm-6 col-md-3 mb-4';
+                card.innerHTML = `
+                    <div class="card">
+                        <img src="${provinsi.foto}" class="card-img-top" alt="${provinsi.name}">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">${provinsi.name}</h5>
+                            <p class="card-text">${provinsi.kabupaten}</p>
+                            <p class="card-text">${provinsi.tanggal}</p>
+                            <button onclick="editProvinsi(${provinsi.id})" class="btn btn-warning">Edit</button>
+                            <button onclick="deleteProvinsi(${provinsi.id})" class="btn btn-danger">Hapus</button>
+                        </div>
+                    </div>
+                `;
+                provinsiContainer.appendChild(card);
+            });
+        }
+
+        // Fungsi untuk mengedit provinsi
+        function editProvinsi(id) {
+            const provinsiList = JSON.parse(localStorage.getItem('provinsiList')) || [];
+            const provinsi = provinsiList.find(p => p.id === id);
+            const newProvinsiName = prompt('Edit Nama Provinsi:', provinsi.name);
+            const newKabupatenName = prompt('Edit Nama Kabupaten:', provinsi.kabupaten);
+            const newTanggal = prompt('Edit Tanggal:', provinsi.tanggal);
+
+            if (newProvinsiName && newKabupatenName && newTanggal) {
+                provinsi.name = newProvinsiName;
+                provinsi.kabupaten = newKabupatenName;
+                provinsi.tanggal = newTanggal;
+                localStorage.setItem('provinsiList', JSON.stringify(provinsiList));
+                loadProvinsi();
+            }
+        }
+
+        // Fungsi untuk menghapus provinsi
+        function deleteProvinsi(id) {
+            let provinsiList = JSON.parse(localStorage.getItem('provinsiList')) || [];
+            provinsiList = provinsiList.filter(p => p.id !== id);
+            localStorage.setItem('provinsiList', JSON.stringify(provinsiList));
+            loadProvinsi();
+        }
+
+        // Preview gambar saat diupload
+        fotoInput.onchange = function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    imgPreview.src = event.target.result;
+                    imgPreview.style.display = 'block'; // Tampilkan preview gambar
+                };
+                reader.readAsDataURL(file);
+            } else {
+                imgPreview.style.display = 'none'; // Sembunyikan jika tidak ada gambar
+            }
+        };
+    </script>
 </body>
 
 </html>
