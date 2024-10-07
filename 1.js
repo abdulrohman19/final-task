@@ -32,7 +32,7 @@
 
         potongan = 0;
     } else {
-        return 'kualitas brang tidak sesuai/valid';
+        return 'kualitas barang tidak sesuai/valid';
     }
 
     totalBayaran = totalHarga - potongan;
